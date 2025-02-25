@@ -1,2 +1,2 @@
-# BoggleyWollah
-Rust based Python tooling to check the health of your Lake House (Delta Lake)
+## BoggleyWollah
+A Python package to help understand the health of your `LakeHouse`.
