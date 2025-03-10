@@ -1,6 +1,7 @@
 import logging
 import boto3
 from deltalake import DeltaTable
+import daft
 
 
 class BoggleyWollah:
@@ -94,10 +95,13 @@ class BoggleyWollah:
             self.table_files[table] = table_files
             parquet_files = self.calculate_table_metrics(table, table_files)
             self.check_average_file_size(table)
-            dead_files = self.find_dead_files(parquet_files, valid_files)
+            _ = self.find_dead_files(parquet_files, valid_files)
+            
 
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    boggley = BoggleyWollah("delta", "confessions-of-a-data-guy", ["picklebob/__unitystorage/catalogs/4c1eb96a-264f-4a0d-bc1a-c80d9fbcdefa/tables/688f96c3-a44d-409e-96db-2a3d075cf7bc/"])
+    boggley = BoggleyWollah("delta", "confessions-of-a-data-guy", 
+                            ["picklebob/__unitystorage/catalogs/4c1eb96a-264f-4a0d-bc1a-c80d9fbcdefa/tables/688f96c3-a44d-409e-96db-2a3d075cf7bc/",
+                             "picklebob/__unitystorage/catalogs/4c1eb96a-264f-4a0d-bc1a-c80d9fbcdefa/tables/1ee88238-1197-4167-86d5-ec5c86cb8e59"])
     boggley.analyze_tables()
