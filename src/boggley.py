@@ -86,6 +86,19 @@ class BoggleyWollah:
         else:
             logging.info(f"For table {table} Average file size {avg_size} MB is less than 256 MB, you should run a compaction job")
 
+    def look_at_partitions(self, table_info, table) -> None:
+        partitions = table_info.partitions()
+        if partitions:
+            logging.info(f"Partitions found: {partitions}")
+            partitions = [partition["rideable_type"] for partition in partitions]
+            df = daft.read_deltalake(f"s3://{self._s3_bucket}/{table}")
+            results = daft.sql("SELECT rideable_type, COUNT(*) as count FROM df GROUP BY rideable_type;")
+            logging.info(f"Partition count: {results.show()}")
+        else:
+            logging.info("No partitions found")
+        logging.info(f"Table {table} analyzed successfully")
+        logging.info("=====================================================")
+
     def analyze_tables(self):
         for table in self._s3_keys:
             logging.info(f"Analyzing table: {table}")
@@ -96,6 +109,7 @@ class BoggleyWollah:
             parquet_files = self.calculate_table_metrics(table, table_files)
             self.check_average_file_size(table)
             _ = self.find_dead_files(parquet_files, valid_files)
+            self.look_at_partitions(table_info, table)
             
 
 

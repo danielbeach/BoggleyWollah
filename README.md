@@ -10,7 +10,7 @@
 - **Supports Multiple Lake House Formats**: Compatible with both `Delta Lake` and `Iceberg` tables stored in S3.
 
 ## Requirements
-- Python 3.7+
+- Python 3.9+
 - AWS `boto3` for S3 interactions
 - `deltalake` library for Delta table analysis
 - 'getdaft` library to analyze Lake House tables
@@ -71,6 +71,9 @@ BoggleyWollah(lake_house_type: str, s3_bucket: str, s3_keys: list, unity: bool =
 
 #### `find_dead_files(actual_files: list, valid_files: list) -> list`
 - Identifies files present in S3 but not referenced by the Lake House metadata.
+
+#### `look_at_partitions(self, table_info, table) -> None`
+- Analyze the partitions if they exist to see if any skew is found.
 
 ## Best Practices
 - **Monitor File Sizes**: Ensure files are within optimal size ranges to balance performance and cost.
