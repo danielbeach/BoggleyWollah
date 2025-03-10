@@ -13,6 +13,7 @@
 - Python 3.7+
 - AWS `boto3` for S3 interactions
 - `deltalake` library for Delta table analysis
+- 'getdaft` library to analyze Lake House tables
 
 ## Installation
 You can install the required dependencies using:
